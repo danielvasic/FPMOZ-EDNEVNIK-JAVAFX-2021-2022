@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class Table {
@@ -108,7 +109,7 @@ public class Table {
         Field[] fields = getClass().getDeclaredFields();
         int index = 0;
         for (Field field : fields) {
-            if (!field.getName().equals("id"))
+            if (!field.getName().toLowerCase(Locale.ROOT).equals("id"))
                 INSERT_SQL_QUERY.append(field.getName());
             index++;
             if (index > 1 && index < fields.length)
@@ -117,7 +118,7 @@ public class Table {
         INSERT_SQL_QUERY.append(") VALUES (null, ");
         index=0;
         for (Field field : fields) {
-            if (!field.getName().equals("id")){
+            if (!field.getName().toLowerCase(Locale.ROOT).equals("id")){
                 INSERT_SQL_QUERY.append("?");
             }
             index++;
@@ -125,10 +126,11 @@ public class Table {
                 INSERT_SQL_QUERY.append(", ");
         }
         INSERT_SQL_QUERY.append(")");
+        System.out.println(INSERT_SQL_QUERY);
         PreparedStatement stmt = Database.CONNECTION.prepareStatement(INSERT_SQL_QUERY.toString(), Statement.RETURN_GENERATED_KEYS);
         index = 1;
         for (Field field : fields) {
-            if (!field.getName().equals("id")){
+            if (!field.getName().toLowerCase(Locale.ROOT).equals("id")){
                 stmt.setObject(index, field.get(this));
                 index++;
             }
@@ -138,7 +140,7 @@ public class Table {
 
         ResultSet rs = stmt.getGeneratedKeys();
 
-        Field id = this.getClass().getDeclaredField("id");
+        Field id = this.getClass().getDeclaredField("ID");
         if(rs.next())
         {
             id.set(this, rs.getInt(1));

@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                ba.sum.fpmoz.ednevnik.fpmozednevnikjavafx20212022/ba.sum.fpmoz.ednevnik.fpmozednevnikjavafx20212022.HelloApplication
+                                ba.sum.fpmoz.ednevnik.fpmozednevnikjavafx20212022/ba.sum.fpmoz.ednevnik.fpmozednevnikjavafx20212022.Program
                             </mainClass>
                         </configuration>
                     </execution>
