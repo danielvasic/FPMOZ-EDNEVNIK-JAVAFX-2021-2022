@@ -153,7 +153,7 @@ public class Table {
         Field[] fields = getClass().getDeclaredFields();
         int index = 0;
         for (Field field : fields) {
-            if (!field.getName().equals("id")) {
+            if (!field.getName().equals("ID")) {
                 UPDATE_SQL_QUERY.append(field.getName());
                 UPDATE_SQL_QUERY.append("=?");
             }
@@ -161,12 +161,12 @@ public class Table {
             if (index > 1 && index < fields.length)
                 UPDATE_SQL_QUERY.append(", ");
         }
-        Field id = this.getClass().getDeclaredField("id");
-        UPDATE_SQL_QUERY.append(" WHERE id= ").append(id.get(this));
+        Field id = this.getClass().getDeclaredField("ID");
+        UPDATE_SQL_QUERY.append(" WHERE ID= ").append(id.get(this));
         PreparedStatement stmt = Database.CONNECTION.prepareStatement(UPDATE_SQL_QUERY.toString(), Statement.RETURN_GENERATED_KEYS);
         index = 1;
         for (Field field : fields) {
-            if (!field.getName().equals("id")){
+            if (!field.getName().equals("ID")){
                 stmt.setObject(index, field.get(this));
                 index++;
             }
@@ -176,15 +176,15 @@ public class Table {
 
     public void delete() throws Exception {
         String tableName = getTableName(getClass());
-        Field id = this.getClass().getDeclaredField("id");
-        PreparedStatement stmt = Database.CONNECTION.prepareStatement("DELETE FROM "+tableName+" WHERE id=?");
+        Field id = this.getClass().getDeclaredField("ID");
+        PreparedStatement stmt = Database.CONNECTION.prepareStatement("DELETE FROM "+tableName+" WHERE ID=?");
         stmt.setObject(1, id.get(this));
         stmt.executeUpdate();
     }
 
     public static Object get(Class cls, int id) throws Exception {
         String tableName = getTableName(cls);
-        String SQL = "SELECT * FROM " + tableName +" WHERE id = " + id;
+        String SQL = "SELECT * FROM " + tableName +" WHERE ID = " + id;
         Statement stmt = Database.CONNECTION.createStatement();
         ResultSet rs = stmt.executeQuery(SQL);
         if (rs.next()){
